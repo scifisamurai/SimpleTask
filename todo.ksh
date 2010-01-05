@@ -16,24 +16,27 @@ function listTasks {
   case "$taskType" in
     'T')
       token='T'
-        #cat ${TASKFILE}|grep -i '^T' |awk '{print $2}'
-        grep -i "^${token}" ${TASKFILE}|cut -d "${token}" -f 2-|cat -n
       ;;
     'D')
       token='D'
-        grep -i "^${token}" ${TASKFILE}|cut -d "${token}" -f 2-|cat -n
       ;;
     'I')
       token='I'
-        grep -i "^${token}" ${TASKFILE}|cut -d "${token}" -f 2-|cat -n
       ;;
     'A')
-        #cut -b 3- ${TASKFILE}|cat -n
+      token='A'
         awk 'gsub("^T", "<Todo>\t\t") gsub("^D", "<Done>\t\t") gsub("^I", "<In Progress>\t")' ${TASKFILE}|cat -n
       ;;
      *)
+      token='Other'
       ;;
   esac 
+
+  #Process the file
+  if [ $token != "A" -a $token != "Other" ] ; then
+        grep -i "^${token}" ${TASKFILE}|cut -d "${token}" -f 2-|cat -n
+  fi
+
 }
 
 print  "1. New Task\n2. Update Existing Task\n3. List Existing Tasks\n"
