@@ -39,27 +39,44 @@ function listTasks {
 
 }
 
-print  "1. New Task\n2. Update Existing Task\n3. List Existing Tasks\n"
+#Display user menu
+function showMenu {
 
-read iMenuOption
-echo $iMenuOption
+    print  "1. New Task\n2. Update Existing Task\n3. List Existing Tasks\n4. Quit\n"
 
-  case "$iMenuOption" in
-    '1')
-      echo "Please enter your new task"
-      newTask
-      ;;
-    '2')
-      #Update Existing Task
-      echo "Not implemented yet"
-      ;;
-    '3')
-      #echo "list tasks"
-      listTasks
-      ;;
-     *)
-      echo "invalid option"
-      ;;
-  esac
+    read iMenuOption
+    echo $iMenuOption
+    if [ $iMenuOption -ne '4' ] ; then
+      getMenuOption
+    fi
+    return $iMenuOption
+}
+
+function getMenuOption {
+
+    case "$iMenuOption" in
+     '1')
+       echo "Please enter your new task"
+       newTask
+       ;;
+     '2')
+       #Update Existing Task
+       echo "Not implemented yet"
+       ;;
+     '3')
+       #echo "list tasks"
+       listTasks
+       ;;
+     #'4')
+     #   exit
+     #   ;;
+      *)
+       echo "invalid option"
+       ;;
+    esac
+}
 
 
+   until [ $? -eq '4' ] ; do
+      showMenu
+   done
